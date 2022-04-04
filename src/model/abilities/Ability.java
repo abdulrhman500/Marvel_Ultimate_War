@@ -22,6 +22,8 @@ public class Ability {
 	public Ability() {
 
 	}
+	public void hu{
+	}
 
 	public void setCastArea(AreaOfEffect castArea) {
 		this.castArea = castArea;
