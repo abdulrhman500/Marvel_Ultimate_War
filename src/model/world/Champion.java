@@ -1,11 +1,13 @@
 package model.world;
 
-import model.abilities.*;
-import model.effects.*;
 import java.awt.Point;
-import java.util.*;
+import java.util.ArrayList;
 
-public class Champion {
+import model.abilities.Ability;
+import model.effects.Effect;
+
+@SuppressWarnings("rawtypes")
+public abstract class Champion implements Damageable, Comparable {
 	private String name;
 	private int maxHP;
 	private int currentHP;
@@ -20,36 +22,68 @@ public class Champion {
 	private Condition condition;
 	private Point location;
 
-	public Champion(String name, int maxHP, int mana, int maxActions, int speed, int attackRange, int attackDamage) {
+	public Champion(String name, int maxHP, int mana, int actions, int speed, int attackRange, int attackDamage) {
 		this.name = name;
 		this.maxHP = maxHP;
 		this.mana = mana;
-		this.maxActionPointsPerTurn = maxActions;
+		this.currentHP = this.maxHP;
+		this.maxActionPointsPerTurn = actions;
 		this.speed = speed;
 		this.attackRange = attackRange;
 		this.attackDamage = attackDamage;
 		this.condition = Condition.ACTIVE;
-		this.currentHP = maxHP;
-		this.currentActionPoints = maxActions;
-		abilities = new ArrayList<Ability>();
-		appliedEffects = new ArrayList<Effect>();
+		this.abilities = new ArrayList<Ability>();
+		this.appliedEffects = new ArrayList<Effect>();
+		this.currentActionPoints = maxActionPointsPerTurn;
 	}
 
-	public Champion() {
+	public int getMaxHP() {
+		return maxHP;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String toString() {
+		StringBuilder res = new StringBuilder();
+		res.append("Health : " + getCurrentHP() + "\n");
+		res.append("Mana : " + getMana() + "\n");
+		res.append("Action Points : " + getCurrentActionPoints() + "\n");
+		res.append("Attack Damage : " + getAttackDamage() + "\n");
+		res.append("Attack Range : " + getAttackRange() + "\n");
+		res.append("Applied Effects on him :"+EffectsToString()+"\n");
+		return res.toString();
+	}
+
+	public String AbilitiesToString() {
+		return abilities.toString();
+	}
+
+	public String EffectsToString() {
+		return appliedEffects.toString();
+	}
+
+	public void setCurrentHP(int hp) {
+
+		if (hp <= 0) {
+			currentHP = 0;
+			condition = Condition.KNOCKEDOUT;
+
+		} else if (hp > maxHP)
+			currentHP = maxHP;
+		else
+			currentHP = hp;
 
 	}
 
 	public int getCurrentHP() {
+
 		return currentHP;
 	}
 
-	public void setCurrentHP(int currentHP) {
-		if (currentHP > maxHP)
-			this.currentHP = maxHP;
-		else if (currentHP < 0)
-			this.currentHP = 0;
-		else
-			this.currentHP = currentHP;
+	public ArrayList<Effect> getAppliedEffects() {
+		return appliedEffects;
 	}
 
 	public int getMana() {
@@ -58,22 +92,6 @@ public class Champion {
 
 	public void setMana(int mana) {
 		this.mana = mana;
-	}
-
-	public int getMaxActionPointsPerTurn() {
-		return maxActionPointsPerTurn;
-	}
-
-	public void setMaxActionPointsPerTurn(int maxActionPointsPerTurn) {
-		this.maxActionPointsPerTurn = maxActionPointsPerTurn;
-	}
-
-	public int getCurrentActionPoints() {
-		return currentActionPoints;
-	}
-
-	public void setCurrentActionPoints(int currentActionPoints) {
-		this.currentActionPoints = currentActionPoints;
 	}
 
 	public int getAttackDamage() {
@@ -88,8 +106,11 @@ public class Champion {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
-		this.speed = speed;
+	public void setSpeed(int currentSpeed) {
+		if (currentSpeed < 0)
+			this.speed = 0;
+		else
+			this.speed = currentSpeed;
 	}
 
 	public Condition getCondition() {
@@ -104,16 +125,8 @@ public class Champion {
 		return location;
 	}
 
-	public void setLocation(Point location) {
-		this.location = location;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public int getMaxHP() {
-		return maxHP;
+	public void setLocation(Point currentLocation) {
+		this.location = currentLocation;
 	}
 
 	public int getAttackRange() {
@@ -124,8 +137,32 @@ public class Champion {
 		return abilities;
 	}
 
-	public ArrayList<Effect> getAppliedEffects() {
-		return appliedEffects;
+	public int getCurrentActionPoints() {
+		return currentActionPoints;
 	}
 
+	public void setCurrentActionPoints(int currentActionPoints) {
+		if (currentActionPoints > maxActionPointsPerTurn)
+			currentActionPoints = maxActionPointsPerTurn;
+		else if (currentActionPoints < 0)
+			currentActionPoints = 0;
+		this.currentActionPoints = currentActionPoints;
+	}
+
+	public int getMaxActionPointsPerTurn() {
+		return maxActionPointsPerTurn;
+	}
+
+	public void setMaxActionPointsPerTurn(int maxActionPointsPerTurn) {
+		this.maxActionPointsPerTurn = maxActionPointsPerTurn;
+	}
+
+	public int compareTo(Object o) {
+		Champion c = (Champion) o;
+		if (speed == c.speed)
+			return name.compareTo(c.name);
+		return -1 * (speed - c.speed);
+	}
+
+	public abstract void useLeaderAbility(ArrayList<Champion> targets);
 }

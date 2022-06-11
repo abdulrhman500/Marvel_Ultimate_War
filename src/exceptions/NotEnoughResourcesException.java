@@ -1,10 +1,14 @@
 package exceptions;
 
+@SuppressWarnings("serial")
 public class NotEnoughResourcesException extends GameActionException {
-	NotEnoughResourcesException() {
+
+	public NotEnoughResourcesException() {
 		super();
 	}
-	NotEnoughResourcesException(String s) {
+
+	public NotEnoughResourcesException(String s) {
 		super(s);
+		
 	}
 }
