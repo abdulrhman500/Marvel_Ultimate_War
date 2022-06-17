@@ -1,3 +1,7 @@
 # Marvel_Ultimate_War
 #Competitive 1 vs 1 champions fighting game 
 The following link shows the game play : https://www.youtube.com/watch?v=NpQf_JG_80U
+
+
+![pick](https://user-images.githubusercontent.com/102627389/174213263-a91327ef-8600-4e0d-bc5c-6bcf569bdd6b.png)
+
