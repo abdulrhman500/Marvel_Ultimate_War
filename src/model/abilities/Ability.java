@@ -42,7 +42,7 @@ public abstract class Ability {
 			currentCoolDown = baseCooldown;
 		this.currentCooldown = currentCoolDown;
 	}
-
+//hi
 	public String getName() {
 		return name;
 	}
