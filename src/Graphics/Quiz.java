@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
 
-import org.junit.validator.PublicClassValidator;
+//import org.junit.validator.PublicClassValidator;
 
 import engine.Game;
 import engine.Player;
@@ -24,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -82,22 +83,10 @@ public class Quiz extends Application implements EventHandler<ActionEvent> {
 		Champion champ1 = game.getAvailableChampions().get((int)(Math.random()*game.getAvailableChampions().size()));
 		Champion champ2 = game.getAvailableChampions().get((int)(Math.random()*game.getAvailableChampions().size()));
 		Champion champ3 = game.getAvailableChampions().get((int)(Math.random()*game.getAvailableChampions().size()));
-		label1.setText(champ1.getName()+" "+champ1.getCurrentHP());
-		label1.setOnMouseClicked(e->{
-			champ1.setCurrentHP(champ1.getCurrentHP()-500);
-			if(champ1.getCurrentHP()>=0)
-			label1.setText(champ1.getName()+" "+champ1.getCurrentHP());
-			
-		});
+		prepareChampions(label1, champ1);
 		Label label2 = new Label();
-		label2.setText(champ2.getName()+" "+champ2.getCurrentHP());
-		label2.setOnMouseClicked(e->{
-			champ2.setCurrentHP(champ2.getCurrentHP()-500);
-			if(champ2.getCurrentHP()>=0)
-			label2.setText(champ2.getName()+" "+champ2.getCurrentHP());
-			
-		});
-		Label label3 = new Label();
+		prepareChampions(label2, champ2);
+		Label label3=new Label();
 		label3.setTranslateY(200);
 		label3.setText(champ3.getName()+" "+champ3.getCurrentHP());
 		label3.setOnMouseClicked(e->{
@@ -116,6 +105,17 @@ public class Quiz extends Application implements EventHandler<ActionEvent> {
 		stage.setResizable(false);
 		stage.show();
 		
+	}
+
+	private void prepareChampions(Label label1, Champion champ1) {
+		label1.setText(champ1.getName()+" "+champ1.getCurrentHP());
+		label1.setOnMouseClicked(e->{
+			champ1.setCurrentHP(champ1.getCurrentHP()-500);
+			if(champ1.getCurrentHP()>=0)
+			label1.setText(champ1.getName()+" "+champ1.getCurrentHP());
+
+		});
+
 	}
 
 }

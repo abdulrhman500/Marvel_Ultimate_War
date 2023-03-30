@@ -6,8 +6,8 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
-
-import org.junit.validator.PublicClassValidator;
+//
+//import org.junit.validator.PublicClassValidator;
 
 import engine.Game;
 import engine.Player;
@@ -4361,7 +4361,9 @@ static Label leader1,leader2;
 			playBoard[i] = new Button();
 			playBoard[i].setMinHeight(80);
 			playBoard[i].setMinWidth(120);
-			playBoard[i].setBorder(Border.stroke(Color.ORANGERED));
+			BorderStroke bs = new BorderStroke(Color.ORANGERED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+					BorderWidths.DEFAULT);
+			playBoard[i].setBorder(new Border(bs));
 			if (i == 5 || i == 10 || i == 15 || i == 20)
 				ctr = 0;
 			playBoard[i].setTranslateX(ctr * 120);
